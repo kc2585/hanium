@@ -1,34 +1,37 @@
 # hanium 
 hanium project
+******서버 사용********
+URL (사용자 접속 경로) 
+https://296835469351.signin.aws.amazon.com/console
 
-1. connect DB with WEB server
-<?php
-$conn_DB = mysql_connext( 'mysql', 'root', 1234 );
+유저명
+proaws19009
 
-if ( !$conn_DB) {
-        die( "MySQL connect eror : ".mysql_error() );
-}
-?>
+IAM 계정명
+proaws19009
 
-<!DOCTYPE HTML>
-<html>
+PASSWORD
+J%cnDKbdtU+O
+*************************
 
-<head>
+1. ubuntu 루트 계정 전환
 
-</head>
+$ su 
+password : 1234
 
-<body>
-        <form method=POST action=connect.php>
-         id: <input type=text name=name /></br>
-         pw: <input type=text name=age /></br>
-         <input type=submit> </br>
+2. ip4 주소 : http://13.125.253.240 -> http://13.125.253.240/index.html  같은 주소
 
-        <?php
-          echo "id : $_POST[name] </br>";
-          echo "pw : $_POST[age] </br>";
-        ?>
+3. 웹페이지 작업하는 법
 
-        </form>
-</body>
+루트 계정으로 전환 -> cd /var/www/html  경로로 들어가 vi 작업. 
 
-</html>
+/var/www/html 경로에 css, html ,php 작업
+
+4. phpmyadmin 접속 방법
+
+주소 : http://13.125.253.240/dbmyadmin
+id : root 
+password : 1234
+
+
+#현재 db 서버 오류 발생
