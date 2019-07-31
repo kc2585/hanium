@@ -1,0 +1,45 @@
+  * 
+{
+  margin: 0 auto;
+  padding:0;
+}
+
+a
+{
+  text-decoration: none; 
+}
+
+ul li 
+{
+  list-style: none;
+}
+
+#login_box
+{
+  width:500px;
+  height:200px;
+  border:solid 2px gray;
+}
+
+table 
+{
+  margin-top:10px;
+}
+
+.mem a:hover 
+{
+  color:red;
+}
+
+#btn 
+{
+  width:95px;
+  height:55px;
+  background: skyblue;
+  border:solid 1px skyblue;
+}
+
+.inph 
+{
+  height:25px;
+}
