@@ -1,0 +1,8 @@
+$ mysql -u root -p
+password : 1234
+
+mariaDB > use 데티어베이스이름;
+// ex) hanium_db
+
+mariaDB > SELECT * FROM 테이블이름;
+// ex) light_tb  테이블 내의 모든 필드가 출력됨. 
