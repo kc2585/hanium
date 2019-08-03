@@ -36,5 +36,8 @@ J%cnDKbdtU+O
 
   password : 1234
 
+- mysql(mariaDB) 이용해서 저장된 값 보는 방법 
+  
+  파일로 올려놈
 
 #현재 db 서버 오류 발생
