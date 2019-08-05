@@ -5,14 +5,7 @@
 URL (사용자 접속 경로) 
 https://296835469351.signin.aws.amazon.com/console
 
-유저명
-proaws19009
 
-IAM 계정명
-proaws19009
-
-PASSWORD
-J%cnDKbdtU+O
 *************************
 
 - ubuntu 루트 계정 전환
