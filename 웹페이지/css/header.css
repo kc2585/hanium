@@ -1,0 +1,38 @@
+header{
+    height: 30%;
+}
+div.logo{
+    position: relative;
+    display: inline-block;
+    color: blue;
+    font-size: 42px;
+    vertical-align: middle;
+    width: 80px;
+    left:30%;
+}
+div.search{
+    position: relative;
+    display: inline-block;
+    height: 40px;
+    width: 400px;
+    border: 1px solid #1b5ac2;
+    background: #ffffff;
+    left: 30%;
+}
+input.search{
+    font-size: 16px;
+    width: 325px;
+    padding: 10px;
+    border: 0px;
+    outline: none;
+    
+}
+button.search_btn{
+    width: 50px;
+    height: 100%;
+    border: 0px;
+    background: #1b5ac2;
+    outline: none;
+    float: right;
+    color: #ffffff;
+}
