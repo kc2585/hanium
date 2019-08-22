@@ -10,7 +10,7 @@ const long referenceMv = 5000;
 void setup()
 {
   Serial.begin(9600);
-  PinMode (ledPin, OUTPUT);
+  pinMode (ledPin, OUTPUT);
 }
 
 void loop()
