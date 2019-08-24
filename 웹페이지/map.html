@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+    <head>
+            <title>STL</title>
+            <meta name="viewport" content="initial-scale=1.0">
+            <meta charset="utf-8">
+        <link rel="stylesheet" type="text/css" href="css/header.css">
+        <link rel="stylesheet" type="text/css" href="css/section.css">
+        <style>
+            html, body{
+                margin: 0; padding: 0; height: 100%;
+            }
+            #map {
+                height: 80%;
+            }
+        </style>
+    </head>
+    <body>
+        <header>
+            <div>
+                <div class="logo">
+                    STL
+                </div>
+                <div class="search">
+                        <input class="search"type="text" placeholder="검색어 입력">
+                        <button class="search_btn" type="submit">검색</button>
+                </div>
+            </div>
+        </header>
+        <section>
+            <div id="map"></div>
+                <script>
+                  function initMap() {
+                    var locations = [                
+                    ['명동', 37.563576, 126.983431],
+                    ['가로수길', 37.520300, 127.023008],
+                    ['광화문', 37.575268, 126.976896],
+                    ['남산', 37.550925, 126.990945],
+                    ['이태원', 37.540223, 126.994005]
+                  ];
+                  var lo = {lat: 37.563576, lng: 126.983431};
+                    // The map, centered at Uluru
+                var map = new google.maps.Map(
+                document.getElementById('map'), {zoom: 12, center: lo});
+                // The marker, positioned at Uluru
+                var Marker;
+                for(var i=0;i<locations.length;i++){
+                Marker = new google.maps.Marker({position: {lat:locations[i][1], lng:locations[i][2]}, map: map});
+    }
+}
+    </script>
+    <!--Load the API from the specified URL
+    * The async attribute allows the browser to render the page while the API loads
+    * The key parameter will contain your own API key (which is not needed for this tutorial)
+    * The callback parameter executes the initMap() function
+    -->
+    <script async defer
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAp9n1z5TNix90drulOyHccDwwVD5YgSxs&callback=initMap">
+    </script>
+        </section>
+    </body>
+</html>
