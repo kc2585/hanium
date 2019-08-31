@@ -1,14 +1,15 @@
 header{
-    height: 30%;
+    height: 5%;
 }
 div.logo{
     position: relative;
     display: inline-block;
-    color: blue;
+    font-family: 'Indie Flower', cursive;
+    color: black;
     font-size: 42px;
     vertical-align: middle;
-    width: 80px;
-    left:30%;
+    width: 100%;
+    text-align: center;
 }
 div.search{
     position: relative;
