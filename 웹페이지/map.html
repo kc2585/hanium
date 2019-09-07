@@ -4,14 +4,13 @@
             <title>STL</title>
             <meta name="viewport" content="initial-scale=1.0">
             <meta charset="utf-8">
-        <link rel="stylesheet" type="text/css" href="css/header.css">
-        <link rel="stylesheet" type="text/css" href="css/section.css">
+        <link rel="stylesheet" type="text/css" href="css/total.css">
         <style>
             html, body{
                 margin: 0; padding: 0; height: 100%;
             }
             #map {
-                height: 80%;
+                height: 100%;
             }
         </style>
     </head>
@@ -23,27 +22,48 @@
                 </div>
             </div>
         </header>
+        <nav>
+            
+            <ul>
+              <li><a href="./index.html">Home</a></li>
+              <li><a href="./map.html">Map</a></li>
+              <li><a href="#">God Giho</a></li>
+              <li><a href="#">STL</a></li>
+            </ul>
+    
+    </nav>
         <section>
             <div id="map"></div>
                 <script>
-                  function initMap() {
-                    var locations = [                
+                     var locations = [                
                     ['명동', 37.563576, 126.983431],
                     ['가로수길', 37.520300, 127.023008],
                     ['광화문', 37.575268, 126.976896],
                     ['남산', 37.550925, 126.990945],
                     ['이태원', 37.540223, 126.994005]
                   ];
-                  var lo = {lat: 37.563576, lng: 126.983431};
-                    // The map, centered at Uluru
+                function initMap() {
+                var lo = {lat: 37.563576, lng: 126.983431};
                 var map = new google.maps.Map(
                 document.getElementById('map'), {zoom: 12, center: lo});
-                // The marker, positioned at Uluru
-                var Marker;
-                for(var i=0;i<locations.length;i++){
-                Marker = new google.maps.Marker({position: {lat:locations[i][1], lng:locations[i][2]}, map: map});
-    }
-}
+               for(var i = 0 ;i<locations.length;i++){
+                   var marker=new google.maps.Marker({
+                       position: new google.maps.LatLng(locations[i][1],locations[i][2]),
+                       map: map,
+                       title: locations[i][0]
+                   });
+                   addInfoWindow(marker,locations[i][0]);
+               }
+            }
+            function addInfoWindow(marker, message) {
+                var infoWindow = new google.maps.InfoWindow({
+                content: message
+                });
+
+                google.maps.event.addListener(marker, 'click', function () {
+                infoWindow.open(map, marker);
+                });
+            }
     </script>
     <!--Load the API from the specified URL
     * The async attribute allows the browser to render the page while the API loads
@@ -51,8 +71,13 @@
     * The callback parameter executes the initMap() function
     -->
     <script async defer
-   #src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAp9n1z5TNix90drulOyHccDwwVD5YgSxs&callback=initMap">
+   src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAp9n1z5TNix90drulOyHccDwwVD5YgSxs&callback=initMap">
     </script>
         </section>
+        <footer>
+                <p>
+                    &copy; 2019 STL
+                </p>
+            </footer>
     </body>
 </html>

@@ -21,33 +21,7 @@ section{
     padding: 15px;
 
 }
-#login-form input, #login-form label{
-    display:block;
-}
-#login-form label{
-    margin-top: 10px;
-}
-#login-form input{
-    margin-top: 5px;
-}
-#login-form input[type='image']{
-    margin: 10px auto;
-}
-
-#dis-form{
-
-    width:200px;
-    margin:100px auto;
-    border: 1px solid gray;
-    border-radius: 5px;
-    padding: 15px;
-
-}
-
-#test{
-    width:400px;
-    margin:100px auto;
-    border: 1px solid gray;
-    border-radius: 5px;
-    padding: 15px;
+#idx{
+    height: 100%;
+    width: 100%;
 }

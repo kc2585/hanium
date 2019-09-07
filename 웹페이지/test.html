@@ -7,8 +7,6 @@
         <link rel="stylesheet" type="text/css" href="css/header.css">
         <link rel="stylesheet" type="text/css" href="css/section.css">
         <link rel="stylesheet" type="text/css" href="css/nav.css">
-        <link href="https://fonts.googleapis.com/css?family=Indie+Flower&display=swap" rel="stylesheet">
-
         <style>
             html, body{
                 margin: 0; padding: 0; height: 100%;
@@ -27,14 +25,84 @@
             </div>
         </header>
         <nav>
-            <div class="menu">
-                <ul>
-                  <li>소개</li>
-                  <li>지도</li>
-                  <li>방법</li>
-                  <li>개발자</li>
-                </ul>
-            </div>
-        </nav>
+            
+            <ul>
+              <li><a href="./index.html">Home</a></li>
+              <li><a href="./map.html">Map</a></li>
+              <li><a href="#">God Giho</a></li>
+              <li><a href="#">STL</a></li>
+            </ul>
+    
+    </nav>
+        <section>
+            <div id="map"></div>
+                <script>
+      var locations = [
+  ['loan 1', 33.890542, 151.274856, 'address 1'],
+  ['loan 2', 33.923036, 151.259052, 'address 2'],
+  ['loan 3', 34.028249, 151.157507, 'address 3'],
+  ['loan 4', 33.80010128657071, 151.28747820854187, 'address 4'],
+  ['loan 5', 33.950198, 151.259302, 'address 5']
+  ];
+
+  function initialize() {
+
+    var myOptions = {
+      center: new google.maps.LatLng(33.890542, 151.274856),
+      zoom: 8,
+      mapTypeId: google.maps.MapTypeId.ROADMAP
+
+    };
+    var map = new google.maps.Map(document.getElementById("default"),
+        myOptions);
+
+    setMarkers(map,locations)
+
+  }
+
+
+
+  function setMarkers(map,locations){
+
+      var marker, i
+
+for (i = 0; i < locations.length; i++)
+ {  
+
+ var loan = locations[i][0]
+ var lat = locations[i][1]
+ var long = locations[i][2]
+ var add =  locations[i][3]
+
+ latlngset = new google.maps.LatLng(lat, long);
+
+  var marker = new google.maps.Marker({  
+          map: map, title: loan , position: latlngset  
+        });
+        map.setCenter(marker.getPosition())
+
+
+        var content = "Loan Number: " + loan +  '</h3>' + "Address: " + add     
+
+  var infowindow = new google.maps.InfoWindow()
+
+google.maps.AddListener(marker,'click', function(map,marker){
+          infowindow.setContent(content)
+          infowindow.open(map,marker)
+
+});
+
+  }
+  }
+    </script>
+    <!--Load the API from the specified URL
+    * The async attribute allows the browser to render the page while the API loads
+    * The key parameter will contain your own API key (which is not needed for this tutorial)
+    * The callback parameter executes the initMap() function
+    -->
+    <script async defer
+   src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAp9n1z5TNix90drulOyHccDwwVD5YgSxs&callback=initialize">
+    </script>
+        </section>
     </body>
 </html>
