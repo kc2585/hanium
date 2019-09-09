@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">EX</string>
+    <string name="title_activity_instructions">InstructionsActivity</string>
+    <string name="title_activity_intro">introActivity</string>
+</resources>
