@@ -28,7 +28,7 @@
         {
             try{
                 // SQL문을 실행하여 데이터를 MySQL 서버의 person 테이블에 저장합니다. 
-                $stmt = $con->prepare('INSERT INTO person(name, country) VALUES(:name, :country)');
+                $stmt = $con->prepare('INSERT INTO Person(name, country) VALUES(:name, :country)');
                 $stmt->bindParam(':name', $name);
                 $stmt->bindParam(':country', $country);
 

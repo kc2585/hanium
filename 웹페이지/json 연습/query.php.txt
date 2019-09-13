@@ -13,7 +13,7 @@ $android = strpos($_SERVER['HTTP_USER_AGENT'], "Android");
 
 if ($country != "" ){ 
 
-    $sql="select * from person where country='$country'";
+    $sql="select * from Person where country='$country'";
     $stmt = $con->prepare($sql);
     $stmt->execute();
  

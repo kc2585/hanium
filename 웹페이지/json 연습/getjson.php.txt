@@ -6,7 +6,7 @@
     include('dbcon.php');
         
 
-    $stmt = $con->prepare('select * from person');
+    $stmt = $con->prepare('select * from Person');
     $stmt->execute();
 
     if ($stmt->rowCount() > 0)
