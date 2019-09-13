@@ -6,7 +6,7 @@
     include('dbcon.php');
         
 
-    $stmt = $con->prepare('select * from user');
+    $stmt = $con->prepare('select * from person');
     $stmt->execute();
 
     if ($stmt->rowCount() > 0)
@@ -18,15 +18,14 @@
             extract($row);
     
             array_push($data, 
-                array('idx'=>$user_id,
-                'id'=>$user_name,
-                'pw'=>$user_pw
-		// $user_id, $user_name ,$user_pw가 테이블에서 각필드의 이름
+                array('id'=>$id,
+                'name'=>$name,
+                'country'=>$country
             ));
         }
 
         header('Content-Type: application/json; charset=utf8');
-        $json = json_encode(array("user"=>$data), JSON_PRETTY_PRINT+JSON_UNESCAPED_UNICODE);
+        $json = json_encode(array("webnautes"=>$data), JSON_PRETTY_PRINT+JSON_UNESCAPED_UNICODE);
         echo $json;
     }
 
