@@ -41,6 +41,7 @@
         android:layout_marginEnd="8dp"
         android:layout_marginRight="8dp"
         android:layout_marginBottom="8dp"
+        android:onClick="RoadonClicked"
         android:text="길찾기"
         android:textSize="36sp"
         app:layout_constraintBottom_toBottomOf="parent"

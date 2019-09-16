@@ -18,4 +18,10 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+    public void RoadonClicked(View v){
+        Intent intent2=new Intent(this,RoadActivity.class);
+        startActivity(intent2);
+    }
+
+
 }
