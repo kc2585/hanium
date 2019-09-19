@@ -31,7 +31,7 @@ public class RoadActivity extends AppCompatActivity {
 
         sttBtn.setOnClickListener(new View.OnClickListener(){
             public void onClick(View v){
-                
+
             }
         });
 

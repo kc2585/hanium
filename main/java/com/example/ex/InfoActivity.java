@@ -3,12 +3,14 @@ package com.example.ex;
 import android.speech.tts.TextToSpeech;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.speech.tts.TextToSpeech;
+import android.speech.tts.TextToSpeech.OnInitListener;
 import android.view.View;
 import android.widget.Toast;
 import java.util.Locale;
 
 
-public class InfoActivity extends AppCompatActivity implements TextToSpeech.OnInitListener {
+public class InfoActivity extends AppCompatActivity implements OnInitListener {
 
     private TextToSpeech myTTS;
 
@@ -29,7 +31,7 @@ public class InfoActivity extends AppCompatActivity implements TextToSpeech.OnIn
     protected void onDestroy(){
         super.onDestroy();
         myTTS.shutdown();
-        finish();
+      //  finish();
     }
 
 }
