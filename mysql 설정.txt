@@ -1,3 +1,4 @@
+CREATE DATABASE admin default CHARACTER SET UTF8;
 CREATE DATABASE search default CHARACTER SET UTF8;
 
 use admin;
@@ -19,6 +20,8 @@ pos VARCHAR(256)
 
 INSERT INTO light_db (id,CDS,pos) VALUES ('10001','300','툴방'), ('10002','350','움방');
 
+use search;
+
 CREATE TABLE search_db(
 idx INT PRIMARY KEY AUTO_INCREMENT,
 Goal VARCHAR(256),
@@ -26,5 +29,6 @@ b_pos VARCHAR(256),
 n_pos VARCHAR(256), 
 Guide VARCHAR(256)
 );
+
 
 INSERT INTO search_db (Goal,b_pos,n_pos,Guide) VALUES ('323','302','302','직진하세요!'), ('323','302','305-4','우회전하세요!'),('323','305-4','화장실','우회전하세요!'),('323','화장실','323','도착했습니다!');
