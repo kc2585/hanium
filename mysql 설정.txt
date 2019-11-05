@@ -33,3 +33,11 @@ Guide VARCHAR(256)
 
 
 INSERT INTO search_db (Start,Goal,b_pos,n_pos,Guide) VALUES ('302','323','302','302','직진하세요!'), ('302','323','302','305-4','우회전하세요!'),('302','323','305-4','화장실','우회전하세요!'),('302','323','화장실','323','도착했습니다!');
+
+use search;
+
+CREATE TABLE log_db(
+id VARCHAR(256),
+Start VARCHAR(256),
+Goal VARCHAR(256)
+);
