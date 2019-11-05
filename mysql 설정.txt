@@ -36,8 +36,9 @@ INSERT INTO search_db (Start,Goal,b_pos,n_pos,Guide) VALUES ('302','323','302','
 
 use search;
 
-CREATE TABLE log_db(
-id VARCHAR(256),
-Start VARCHAR(256),
-Goal VARCHAR(256)
-);
+create table log_db(
+     id varchar(255) not null,
+     Start varchar(255) not null,
+     Goal varchar(255) not null,
+     primary key (id)
+) DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
