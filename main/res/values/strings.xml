@@ -1,5 +1,4 @@
 <resources>
-    <string name="app_name">EX</string>
-    <string name="title_activity_instructions">InstructionsActivity</string>
-    <string name="title_activity_intro">introActivity</string>
+    <string name="app_name">STL</string>
+    <string name="error_value">이미지가 열리지 않습니다</string>
 </resources>
