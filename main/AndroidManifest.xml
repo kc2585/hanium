@@ -1,28 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.stl">
-
     <!-- network & voice permission -->
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE"/>
-
-
-    <!-- voice permission -->
-    <uses-permission android:name="android.permission.RECORD_AUDIO" />
-
-    <!-- bluetooth permission -->
+    <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE" /> <!-- voice permission -->
+    <uses-permission android:name="android.permission.RECORD_AUDIO" /> <!-- bluetooth permission -->
     <uses-permission android:name="android.permisson.BLUETOOTH" />
-    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
-
-    <!-- bluetooth & gps permission -->
+    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" /> <!-- bluetooth & gps permission -->
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
-
-    <!--usesCleartextTraffic : API28부터 https 가 아닌 http 프로토콜
-    접속을 제한하고 있는데 usesCleartextTraffic를 true로 설정하게 되면
-    모든 cleartext 트래픽은 허용 처리가 된다.
-    supportsRtl : 이슬람 문화권에서는 레이아웃의 방향이 서구문화권과는 반대이기
-    때문에 안드로이드 SDK 17 이상부터 RTL(right-to-left) 레이아웃을 지원-->
 
     <application
         android:allowBackup="true"
@@ -33,22 +19,26 @@
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
 
-
-        <activity android:name=".LostActivity"></activity>
+        <!-- android:theme은 팝업 창을 하기 위해서 꼭 써주어야 함!-->
+        <activity
+            android:name=".PopupActivity"
+            android:theme="@android:style/Theme.Dialog">
+        </activity>
+        <activity android:name=".LostActivity" />
         <activity android:name=".EndActivity" />
         <activity android:name=".GuideActivity" />
         <activity android:name=".SearchListActivity" />
         <activity android:name=".GuideSettingsActivity" />
-        <activity android:name=".CheckActivity" />
-
-        <!-- screenOrientation : 화면 고정-->
+        <activity android:name=".CheckActivity" /> <!-- screenOrientation : 화면 고정 -->
         <activity
             android:name=".SplashActivity"
             android:screenOrientation="portrait"
             android:theme="@style/SplashTheme">
-            <!-- 앱 시작-->
+
+            <!-- 앱 시작 -->
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>

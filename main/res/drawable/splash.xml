@@ -4,6 +4,6 @@
     <!-- 색상 리소스-->
     <item android:drawable="@android:color/white"/>
     <item>
-        <bitmap android:src="@mipmap/logo" android:gravity="center"/>
+        <bitmap android:src="@mipmap/logo_gif" android:gravity="center"/>
     </item>
 </layer-list>
