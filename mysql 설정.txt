@@ -39,8 +39,10 @@ INSERT INTO search_db (Start,Goal,b_pos,n_pos,Guide) VALUES ('큐브','주차장
 use search;
 
 create table log_db(
+     idx bigint(20) unsigned not null auto_increment,
      id varchar(255) not null,
      Start varchar(255) not null,
      Goal varchar(255) not null,
-     primary key (id)
+     primary key (idx)
 ) DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
