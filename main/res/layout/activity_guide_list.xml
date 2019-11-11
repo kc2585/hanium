@@ -4,9 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorWhite"
     android:orientation="vertical"
-    tools:context=".SearchListActivity">
+    android:background="@color/colorWhite"
+    tools:context=".GuideListActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -31,13 +31,23 @@
             android:layout_width="match_parent"
             android:layout_height="57dp"
             android:gravity="center_horizontal|center_vertical"
-            android:text="검색 기록"
+            android:text="길 안내"
             android:textColor="#FFFFFF"
-            android:textSize="30sp" />
+            android:textSize="24sp" />
     </LinearLayout>
 
     <android.support.v7.widget.RecyclerView
-        android:id="@+id/recycle_search_list"
+        android:id="@+id/guide_list_route"
         android:layout_width="match_parent"
-        android:layout_height="660dp" />
+        android:layout_height="390dp" />
+
+    <Button
+        android:id="@+id/guide_list_start"
+        android:layout_width="match_parent"
+        android:layout_height="114dp"
+        android:background="#D9A08B "
+        android:text="길 안내 시작"
+        android:textColor="#ffffff"
+        android:textSize="24sp" />
+
 </LinearLayout>

@@ -1,9 +1,10 @@
 
 package com.example.stl;
 
+import android.app.Activity;
 import android.content.Intent;
-import android.media.Image;
 import android.os.RemoteException;
+import android.preference.ListPreference;
 import android.speech.tts.TextToSpeech;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -18,23 +19,21 @@ import org.altbeacon.beacon.BeaconParser;
 import org.altbeacon.beacon.RangeNotifier;
 import org.altbeacon.beacon.Region;
 import org.altbeacon.beacon.service.ArmaRssiFilter;
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import android.os.*;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.resource.drawable.GlideDrawable;
 import com.bumptech.glide.request.target.GlideDrawableImageViewTarget;
 
+import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 
 public class GuideActivity extends AppCompatActivity implements BeaconConsumer {
+
+    private final GuideHandler ghandler=new GuideHandler();
 
     private ArrayList<RoadData> road_list;
     private TextView pra;
@@ -54,7 +53,7 @@ public class GuideActivity extends AppCompatActivity implements BeaconConsumer {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_guide);
         pra=(TextView)findViewById(R.id.Guide_pra);
-        image_pre=(ImageView)findViewById(R.id.Guide_image);
+        image_pre=(ImageView)findViewById(R.id.guide_image);
         image_pre.setImageResource(R.mipmap.loading);
 
         //gif
@@ -86,7 +85,7 @@ public class GuideActivity extends AppCompatActivity implements BeaconConsumer {
 
         beaconManager.bind(this);
 
-        handler.sendEmptyMessage(0);
+        ghandler.sendEmptyMessage(0);
 
 
     }
@@ -119,15 +118,43 @@ public class GuideActivity extends AppCompatActivity implements BeaconConsumer {
             helpme.shutdown();  //tts stop
         }
         beaconManager.unbind(this);
+        ghandler.removeMessages(0);
     }
 
+    private class GuideHandler extends Handler{
+        public GuideHandler(){
 
-    Handler handler = new Handler() {
+        }
+
+        @Override
+        public void handleMessage(Message msg){
+            if(msg.what==1){
+                {
+                    for(Beacon beacon : beaconList){
+                        //pra.append("ID : " + beacon.getId2() + " / " + "Distance : " + Double.parseDouble(String.format("%.3f", beacon.getDistance())) + "m\n");
+                        if(beacon.getDistance()<mini_beacon.getDistance() && beacon.getDistance()<2.0){
+                            mini_beacon=beacon;
+                        }
+                    }
 
 
-        public void handleMessage(Message msg) {
+                    if(mini_beacon.getDistance()<0.5){
+                        Log.d("젭알","조건 만족 "+mini_beacon.getDistance());
+                        Intent intent=new Intent(getApplicationContext(),EndActivity.class);
+                        startActivity(intent);
+                        finish();
+                        ghandler.removeMessages(0);
+                    }else{
+                        Log.d("젭알","조건 불 만족 "+n_pos.getDistance());
+                        ghandler.sendEmptyMessageDelayed(1,1000);
+                    }
+
+                }
+
+            }
+
             //pra.setText("");
-
+            int i=0;
             String b_pos_id;
             String n_pos_id;
             boolean flag=true;
@@ -145,14 +172,38 @@ public class GuideActivity extends AppCompatActivity implements BeaconConsumer {
                 }
 
                 if(b_pos==null){
-                    b_pos=mini_beacon;
-                    n_pos=mini_beacon;
-                    flag=false;
-                }else if (n_pos!=mini_beacon){
-                    b_pos=n_pos;
-                    n_pos=mini_beacon;
-                    flag=false;
+                    Log.d("젭알","null null mini_beacon: " + mini_beacon.getId2());
+                }else{
+                    Log.d("젭알","b_pos : " +b_pos.getId2()+"n_pos : " +n_pos.getId2()+
+                            "mini_beacon"+mini_beacon.getId2());
                 }
+
+                if(b_pos==null) {
+                    Log.d("젭알", "b_pos==null 통과");
+                    b_pos = mini_beacon;
+                    n_pos = mini_beacon;
+                    flag = false;
+                }else{
+                    String n_beacon_id_else=String.format("%s",n_pos.getId2());
+                    String mini_beacon_id_else=String.format("%s",mini_beacon.getId2());
+
+                    if(!(n_beacon_id_else.equals(mini_beacon_id_else))) {
+
+
+                        Log.d("젭알", "n_pos!=mini_beacon 통과");
+                        Log.d("젭알", "n_beacon_id : " +n_beacon_id_else +" mini_beacon_id : "+
+                                mini_beacon_id_else);
+
+
+                        b_pos = n_pos;
+                        n_pos = mini_beacon;
+                        flag = false;
+
+                    }
+                }
+
+
+                Log.d("젭알","b_pos : " +b_pos.getId2()+"n_pos : " +n_pos.getId2());
 
                 if(!flag){
                     b_pos_id=String.format("%s",b_pos.getId2());
@@ -160,60 +211,76 @@ public class GuideActivity extends AppCompatActivity implements BeaconConsumer {
                     //pra.setText("");
 
                     //Log.d("sibal","b_pos_id : " +b_pos_id+" n_pos_id : "
-                      //      +n_pos_id);
+                    //      +n_pos_id);
 
                     //pra.append("\nb_pos_id : " +b_pos_id + "n_pos_id : "+n_pos_id+"\n");
 
-                    for(int i=0;i<road_list.size();i++){
+                    for(i=0;i<road_list.size();i++){
                         RoadData semi=road_list.get(i);
 
                         String b_pos=semi.getMember_b_pos();
                         String n_pos=semi.getMember_n_pos();
                         String Guide=semi.getMember_Guide();
 
-                        //Log.d("sibal",i+" "+b_pos+" "+n_pos+" "+Guide);
+                        Log.d("젭알",i+b_pos+n_pos);
+
 
                         if(b_pos.equals(b_pos_id) && n_pos.equals(n_pos_id)){
                             //pra.append(b_pos_id+" "+n_pos_id);
                             //pra.append(Guide);
 
-                            //Log.d("sibal","if문 안");
+                            Log.d("젭알",i+b_pos+n_pos);
+                            char Guide_0=Guide.charAt(0);
 
-                            switch (Guide){
-                                case "직진하세요!":
-                                    pra.setText("직진하세요!");
-                                    helpme.speak("직진하세요!",TextToSpeech.QUEUE_FLUSH,null,null);
-                                    image_pre.setImageResource(R.mipmap.go);
-                                    break;
-                                case "우회전하세요!":
-                                    pra.setText("우회전하세요!");
-                                    helpme.speak("우회전하세요!",TextToSpeech.QUEUE_FLUSH,null,null);
+
+                            switch (Guide_0){
+                                case '오':
+                                    pra.setText(Guide);
+                                    Log.d("젭알",i+b_pos_id+n_pos_id+"speak 우회전하세요");
+                                    helpme.speak(Guide,TextToSpeech.QUEUE_FLUSH,null,null);
                                     image_pre.setImageResource(R.mipmap.right_arrow);
                                     break;
-                                case "좌회전하세요!":
-                                    pra.setText("좌회전하세요!");
-                                    helpme.speak("좌회전하세요!",TextToSpeech.QUEUE_FLUSH,null,null);
+                                case '왼':
+                                    pra.setText(Guide);
+                                    Log.d("젭알",i+b_pos_id+n_pos_id+"speak 좌회전");
+                                    helpme.speak(Guide,TextToSpeech.QUEUE_FLUSH,null,null);
                                     image_pre.setImageResource(R.mipmap.left);
                                     break;
-                                case "도착했습니다!":
-                                    pra.setText("도착했습니다!");
-                                    helpme.speak("도착!",TextToSpeech.QUEUE_FLUSH,null,null);
-                                    Intent intent=new Intent(getApplicationContext(),EndActivity.class);
-                                    startActivity(intent);
-                                    finish();
+                                case '잠':
+                                    Log.d("젭알",i+b_pos_id+n_pos_id+"speak 도착");
+                                    pra.setText(Guide);
+                                    helpme.speak(Guide,TextToSpeech.QUEUE_FLUSH,null,null);
+                                    image_pre.setImageResource(R.mipmap.pin_mini);
+                                    Log.d("젭알",String.format("%s",mini_beacon.getDistance()));
+
+                                    ghandler.sendEmptyMessage(1);
+                                    break;
+                                default:
+                                    pra.setText(Guide);
+                                    helpme.speak(Guide,TextToSpeech.QUEUE_FLUSH,null,null);
+                                    Log.d("젭알",i+b_pos_id+n_pos_id+"speak 직진");
+                                    image_pre.setImageResource(R.mipmap.go);
+                                    break;
                             }
+                            break;
                         }
                     }
 
+                    /*if(i==road_list.size())
+                    {
+
+                        Log.d("젭알", "i : "+i+"road_list.size : "+road_list.size());
+                        Intent intent=new Intent(getApplicationContext(),LostActivity.class);
+                        startActivity(intent);
+                        finish();
+                    }*/
                 }
 
             }
-
-
-            // 자기 자신을 1초마다 호출
-            handler.sendEmptyMessageDelayed(0, 1000);
+            // 자기 자신을 3초마다 호출
+            ghandler.sendEmptyMessageDelayed(0, 3000);
         }
-    };
+    }
 
 
 

@@ -7,31 +7,31 @@ package com.example.stl;
 
 
 public class PersonalData {
-    private String member_starting_point;
-    private String member_destination;
     private String member_id;
+    private String member_Start;
+    private String member_Goal;
 
     public String getMember_id(){
-        return member_starting_point;
-    }
-
-    public String getMember_name() {
-        return member_destination;
-    }
-
-    public String getMember_address() {
         return member_id;
     }
 
+    public String getMember_Start() {
+        return member_Start;
+    }
+
+    public String getMember_Goal() {
+        return member_Goal;
+    }
+
     public void setMember_id(String member_id) {
-        this.member_starting_point = member_id;
+        this.member_id = member_id;
     }
 
-    public void setMember_name(String member_name) {
-        this.member_destination = member_name;
+    public void setMember_Start(String member_Start) {
+        this.member_Start = member_Start;
     }
 
-    public void setMember_address(String member_address) {
-        this.member_id = member_address;
+    public void setMember_Goal(String member_Goal) {
+        this.member_Goal = member_Goal;
     }
 }

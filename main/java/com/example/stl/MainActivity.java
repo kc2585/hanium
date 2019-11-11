@@ -2,28 +2,15 @@ package com.example.stl;
 
 import android.Manifest;
 import android.app.Activity;
-import android.bluetooth.BluetoothAdapter;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.speech.tts.TextToSpeech;
-import android.speech.tts.TextToSpeech.OnInitListener;
+import android.provider.Settings;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageButton;
-import android.widget.Toast;
-
-import org.altbeacon.beacon.Beacon;
-import org.altbeacon.beacon.BeaconManager;
-import org.w3c.dom.Text;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Locale;
-import java.util.UUID;
 
 
 //1. 퍼미션이 허용되어 있는지 확인하고 없을시 퍼미션 요구
@@ -35,6 +22,7 @@ public class MainActivity extends AppCompatActivity
 {
     private ImageButton guide_button;
     private ImageButton list_button;
+    private ImageButton info_button;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,7 +32,7 @@ public class MainActivity extends AppCompatActivity
 
         list_button=(ImageButton)findViewById(R.id.search_list);
         guide_button=(ImageButton)findViewById(R.id.road_find);
-
+        info_button=(ImageButton)findViewById(R.id.main_use_image);
 
         //버튼 클릭 이벤트
         list_button.setOnClickListener(new View.OnClickListener() {
@@ -60,6 +48,15 @@ public class MainActivity extends AppCompatActivity
             public void onClick(View v){
                 Intent guide_intent=new Intent(MainActivity.this,GuideSettingsActivity.class);
                 startActivity(guide_intent);
+            }
+        });
+
+
+        info_button.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v){
+                Intent use_intent=new Intent(MainActivity.this,UseActivity.class);
+                startActivity(use_intent);
             }
         });
     }

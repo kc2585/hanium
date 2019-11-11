@@ -4,9 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorWhite"
     android:orientation="vertical"
-    tools:context=".SearchListActivity">
+    tools:context=".UseActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -31,13 +30,25 @@
             android:layout_width="match_parent"
             android:layout_height="57dp"
             android:gravity="center_horizontal|center_vertical"
-            android:text="검색 기록"
+            android:text="사용법"
             android:textColor="#FFFFFF"
             android:textSize="30sp" />
     </LinearLayout>
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/recycle_search_list"
+    <ImageView
+        android:id="@+id/use_image"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="300dp"
+        app:srcCompat="@mipmap/mute" />
+
+    <TextView
+        android:id="@+id/use_text"
         android:layout_width="match_parent"
-        android:layout_height="660dp" />
+        android:layout_height="match_parent"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:textColor="#000000"
+        android:textSize="22sp" />
+
 </LinearLayout>

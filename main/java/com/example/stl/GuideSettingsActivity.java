@@ -39,6 +39,8 @@ public class GuideSettingsActivity extends AppCompatActivity {
     private EditText destination;
     private Button input_data;
     private String road_json_string;
+    private String input_start;
+    private String input_destination;
 
     // RoadData array
     private ArrayList<RoadData> road_array;
@@ -50,9 +52,12 @@ public class GuideSettingsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_guide_settings);
 
 
-        start=(EditText)findViewById(R.id.input_start);
-        destination=(EditText)findViewById(R.id.input_destination);
-        input_data=(Button)findViewById(R.id.button_ok);
+        start=(EditText)findViewById(R.id.guide_start);
+        destination=(EditText)findViewById(R.id.guide_goal);
+        input_data=(Button)findViewById(R.id.guide_road_start);
+
+
+
 
         road_array=new ArrayList<>();
 
@@ -64,15 +69,17 @@ public class GuideSettingsActivity extends AppCompatActivity {
 
                 road_array.clear();
 
-                String input_start=start.getText().toString();
-                String input_destination=destination.getText().toString();
+                input_start=start.getText().toString();
+                input_destination=destination.getText().toString();
                 String macAddress = getMACAddress("wlan0");
 
-                InsertData task_insert=new InsertData();
-                task_insert.execute("http://"+IP_ADDRESS+"/insert.php",input_start,input_destination,macAddress);
+                Log.d("젭알",input_start);
+                Log.d("젭알",input_destination);
 
-                GetData task_get=new GetData();
-                task_get.execute("http://"+IP_ADDRESS+"/queryGuide.php",input_start,input_destination);
+                InsertData task_insert=new InsertData();
+                task_insert.execute("http://"+IP_ADDRESS+"/insert.php",macAddress,input_start,input_destination);
+
+
             }
         });
     }
@@ -107,7 +114,15 @@ public class GuideSettingsActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(String result) {
             super.onPostExecute(result);
-            Log.d("sibal", "POST response  - " + result);
+            Log.d("젭알",result);
+            Log.d("젭알","onPostExecute 통과");
+
+            Intent searchlist_guide=new Intent(getApplicationContext(),GuideListActivity.class);
+            searchlist_guide.putExtra("start",input_start);
+            searchlist_guide.putExtra("goal",input_destination);
+            startActivity(searchlist_guide);
+            Log.d("젭알","ㅠㅠㅠㅠㅠㅠㅠㅠㅠㅠㅠ");
+            finish();
 
         }
 
@@ -115,10 +130,10 @@ public class GuideSettingsActivity extends AppCompatActivity {
         @Override
         protected String doInBackground(String... params) {
             String serverURL = (String)params[0];
-            String id = (String)params[1];           //start
-            String name = (String)params[2];     //destination
-            String country=(String)params[3];        //userid
-            String postParameters = "id=" + id + "&name=" + name+"&country="+country;
+            String id = (String)params[1];
+            String Start = (String)params[2];
+            String Goal=(String)params[3];
+            String postParameters = "id=" + id + "&Start=" + Start +"&Goal="+ Goal;
 
             try {
                 URL url = new URL(serverURL);
@@ -160,130 +175,12 @@ public class GuideSettingsActivity extends AppCompatActivity {
 
 
             } catch (Exception e) {
+                Log.d("젭알",e.getMessage());
                 return new String("Error: " + e.getMessage());
             }
 
         }
     }
 
-   private class GetData extends AsyncTask<String,Void,String>{
-
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-        }
-
-        @Override
-        protected void onPostExecute(String result) {
-            super.onPostExecute(result);
-            Log.d("sibal", "POST response  - " + result);
-            if(result!=null){
-                road_json_string=result;
-                get_list();
-                Log.d("sibal_json_str",road_json_string);
-
-                Intent intent=new Intent(getApplicationContext(),GuideActivity.class);
-                intent.putExtra("pass_array",road_array);
-                startActivity(intent);
-            }
-        }
-
-        @Override
-        protected void onCancelled(){
-            super.onCancelled();
-            Toast.makeText(getApplicationContext(),"경로가 잘 못 되었습니다. 다시 입력하여" +
-                    "주십시오",Toast.LENGTH_LONG).show();
-        }
-        @Override
-        protected String doInBackground(String... strings) {
-
-            String serverURL = strings[0];
-            String postParameters = "Start=" + strings[1] + "&Goal=" + strings[2];
-
-            try {
-                int index=0;
-                URL url = new URL(serverURL);
-                HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
-                httpURLConnection.setReadTimeout(5000);
-                httpURLConnection.setConnectTimeout(5000);
-                httpURLConnection.setRequestMethod("POST");
-                httpURLConnection.setDoInput(true);
-                httpURLConnection.connect();
-                OutputStream outputStream = httpURLConnection.getOutputStream();
-                outputStream.write(postParameters.getBytes("UTF-8"));
-                outputStream.flush();
-                outputStream.close();
-
-                int responseStatusCode = httpURLConnection.getResponseCode();
-                InputStream inputStream;
-
-                if(responseStatusCode == HttpURLConnection.HTTP_OK) {
-                    inputStream = httpURLConnection.getInputStream();
-                }
-                else{
-                    inputStream = httpURLConnection.getErrorStream();
-                }
-
-                InputStreamReader inputStreamReader = new InputStreamReader(inputStream, "UTF-8");
-                BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
-
-                StringBuilder sb = new StringBuilder();
-                String line;
-
-
-                while((line = bufferedReader.readLine()) != null){
-                    index++;
-                    sb.append(line);
-                }
-
-                bufferedReader.close();
-
-                if(index==0)
-                    cancel(true);
-
-                return sb.toString().trim();
-
-
-            } catch (Exception e) {
-
-                Log.d("sibal", "InsertData: Error ", e);
-                return null;
-            }
-        }
-    }
-
-    private void get_list(){
-        String TAG_JSON="search_db";
-        String TAG_b_pos = "b_pos";
-        String TAG_n_pos = "n_pos";
-        String TAG_Guide = "Guide";
-
-        try {
-            JSONObject jsonObject = new JSONObject(road_json_string);
-            JSONArray jsonArray = jsonObject.getJSONArray(TAG_JSON);
-
-            for (int i = 0; i < jsonArray.length(); i++) {
-
-                JSONObject item = jsonArray.getJSONObject(i);
-
-                String b_pos=item.getString(TAG_b_pos);
-                String n_pos = item.getString(TAG_n_pos);
-                String Guide = item.getString(TAG_Guide);
-
-                RoadData roadData = new RoadData();
-
-                roadData.setMember_b_pos(b_pos);
-                roadData.setMember_n_pos(n_pos);
-                roadData.setMember_Guide(Guide);
-
-                road_array.add(roadData);
-
-                Log.d("sibal","확인!");
-            }
-        }catch (JSONException e){
-            Log.d("sibal","error : ", e);
-        }
-
-    }
 
 }

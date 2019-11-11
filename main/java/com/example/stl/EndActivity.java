@@ -1,34 +1,78 @@
 package com.example.stl;
 
+import android.os.Handler;
+import android.speech.tts.TextToSpeech;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
+import org.w3c.dom.Text;
+
+import java.util.Locale;
+
 //길안내를 종료할 시 실행되는 Activity
 public class EndActivity extends AppCompatActivity {
 
-    private Button button;
+
+    private TextToSpeech end_tts;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_end);
-        button=(Button)findViewById(R.id.button);
 
-        button.setOnClickListener(new View.OnClickListener(){
+        Button end_button=(Button)findViewById(R.id.end_end);
+        Button menu_button=(Button)findViewById(R.id.end_back);
+
+        //음성인식 설정
+        end_tts=new TextToSpeech(getApplicationContext(), new TextToSpeech.OnInitListener() {
             @Override
-            public void onClick(View v){
-                // 모든 Activity를 종료시키지 않고 버튼 클릭 시 MainActivity로 되돌아감.
-                finish();
-
-                // 아래 코드는 앱을 종료시키는 코드이다.
-                // 근데 알약에서 배터리 유출이 발생한다고 하니 나중에 사용하게 된다면 고쳐서 사용하자.
-                // finishAffinity();
-                // System.runFinalization();
-                // System.exit(0);
+            public void onInit(int status) {
+                if(status!=TextToSpeech.ERROR){
+                    end_tts.setLanguage(Locale.KOREAN);
+                    end_tts.speak("도착했습니다", TextToSpeech.QUEUE_FLUSH,null,null);
+                }
             }
         });
 
+
+
+        //앱 전체 종료
+        end_button.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v){
+                end_tts.speak("앱을 종료합니다.",TextToSpeech.QUEUE_FLUSH,null,null);
+                finish();
+                // 현재 어플을 백그라운드로 넘김 - > 종료된게 아님!
+                moveTaskToBack(true);
+                // 현재의 프로세스 및 서비스를 종료시킴
+                android.os.Process.killProcess(android.os.Process.myPid());
+            }
+        });
+
+
+        //MainActivity로 이동한다.
+        menu_button.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v){
+                end_tts.speak("메인 메뉴로 이동합니다.",TextToSpeech.QUEUE_FLUSH,null,null);
+                finish();
+
+            }
+        });
+
+
+
+    }
+
+    //activity destory시 tts가 멈추어야 한다.
+    @Override
+    protected void onDestroy(){     //tts 초기화
+        if(end_tts!=null){
+            end_tts.stop();
+            end_tts.shutdown();  //tts stop
+        }
+        super.onDestroy();
     }
 }

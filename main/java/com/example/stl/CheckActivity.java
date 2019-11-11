@@ -1,6 +1,5 @@
 package com.example.stl;
 
-import android.app.Activity;
 import android.bluetooth.BluetoothAdapter;
 import android.content.Context;
 import android.content.Intent;
@@ -8,54 +7,53 @@ import android.location.LocationManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Handler;
-import android.os.Message;
 
 import android.speech.tts.TextToSpeech;
-import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
-import android.view.MotionEvent;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.Locale;
 
 // bluetooth, gps, internet(mobile) 연결 확인
 public class CheckActivity extends AppCompatActivity  {
 
-    private TextView tx;
-    private TextToSpeech check_tts;
-    private String intenthand="";
-    private Button Check;
-
-
-
+    private String intent_check="";
     private String info_message="연결을 확인해 주세요.\n";
-    private String base_info="연결 후 아래 버튼을 눌러주세요.";
+    private String base_info="연결 후 아래 재시도 버튼을 눌러주세요.";
+
+
 
     // true면 연결이 되어 있고 false는 연결이 되어 있지 않을것
     // 처음 확인을 위해서 false로 초기화
     private boolean total_check=false;
 
+    private TextToSpeech check_tts;
+
+    private Button re_button;
+    private TextView info_text;
+
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_check);
-        tx=(TextView)findViewById(R.id.text_info);
-        Check=(Button)findViewById(R.id.CHECK);
 
-        // check 버튼 누르면 Action
-        Check.setOnClickListener(new View.OnClickListener(){
+        info_text=(TextView)findViewById(R.id.ConstraintLayout);
+        re_button=(Button)findViewById(R.id.check_re);
+
+        //버튼 설정
+        re_button.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v){
                 check();
             }
         });
 
-        // 음성인식 설정
+        //음성인식 설정
         check_tts=new TextToSpeech(getApplicationContext(), new TextToSpeech.OnInitListener() {
             @Override
             public void onInit(int status) {
@@ -76,34 +74,35 @@ public class CheckActivity extends AppCompatActivity  {
             }
         },500);
 
-    }
 
+
+    }
 
 
     private void check(){
 
         //total_check를 false로 초기화
-        intenthand="";
+        intent_check="";
         total_check=false;
 
         if(!internet()){
-            intenthand+=" 인터넷 ";
+            intent_check+=" 인터넷 ";
             total_check=true;
         }
         if(!bluetooth()){
-            intenthand+=" 블루투스 ";
+            intent_check+=" 블루투스 ";
             total_check=true;
         }
         if(!gps()){
-            intenthand+=" gps ";
+            intent_check+=" gps ";
             total_check=true;
         }
 
         //하나라도 연결이 안되어있다면 true
         if(total_check==true){
-            intenthand+="\n"+info_message+base_info;
-            tx.setText(intenthand);
-            check_tts.speak(intenthand,TextToSpeech.QUEUE_FLUSH,null,null);
+            intent_check+="\n"+info_message+base_info;
+            info_text.setText(intent_check);
+            check_tts.speak(intent_check,TextToSpeech.QUEUE_FLUSH,null,null);
         }
         // main activity 로 intent 넘김
         else{
@@ -168,13 +167,5 @@ public class CheckActivity extends AppCompatActivity  {
         super.onDestroy();
     }
 
-    //뒤로 가기 버튼 동작을 멈추어 사용자가 check activity를 거치지 않고 뒤로가기를 못 하게 한다.
-    @Override
-    public void onBackPressed(){    //뒤로 가기 버튼 동작 중지
-        Toast.makeText(getApplicationContext(),"연결을 확인해주세요",
-                Toast.LENGTH_LONG).show();
-        check_tts.speak("연결을 확인해주세요",TextToSpeech.QUEUE_FLUSH,null,null);
-        //super.onBackPressed();
-    }
 
 }

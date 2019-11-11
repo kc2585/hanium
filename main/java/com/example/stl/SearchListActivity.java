@@ -1,13 +1,17 @@
 package com.example.stl;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.AsyncTask;
+import android.os.Handler;
+import android.speech.tts.TextToSpeech;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.View;
 import android.widget.Toast;
 
 import org.json.JSONArray;
@@ -24,6 +28,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Locale;
 import java.util.UUID;
 
 public class SearchListActivity extends AppCompatActivity {
@@ -35,6 +40,8 @@ public class SearchListActivity extends AppCompatActivity {
     private UsersAdapter search_adapter;
     private String search_json_string;
 
+    //private TextToSpeech searchlist_tts;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,12 +50,49 @@ public class SearchListActivity extends AppCompatActivity {
 
         search_view.setLayoutManager(new LinearLayoutManager(this));
         //구분선
-        search_view.addItemDecoration(new DividerItemDecoration(getApplicationContext(),1));
+        search_view.addItemDecoration(new DividerItemDecoration(this,LinearLayoutManager.VERTICAL));
 
         search_array=new ArrayList<>();
         search_adapter=new UsersAdapter(this,search_array);
 
         search_view.setAdapter(search_adapter);
+
+        //음성출력 설정
+        //searchlist_tts=new TextToSpeech(getApplicationContext(), new TextToSpeech.OnInitListener() {
+        //    @Override
+        //    public void onInit(int status) {
+        //        searchlist_tts.setLanguage(Locale.KOREAN);
+        //    }
+        //});
+
+        //Touch Event 처리
+        search_adapter.setOnItemClickListener(new UsersAdapter.OnItemClickListener() {
+            @Override
+            public void GetItem(View v, int position) {
+                String Start;
+                String Goal;
+                PersonalData Get=search_array.get(position);
+
+                Start=Get.getMember_Start();
+                Goal=Get.getMember_Goal();
+
+                //searchlist_tts.speak(Start+" "+Goal+"경로를 출력합니다.",TextToSpeech.QUEUE_FLUSH,null,null);
+
+                Intent searchlist_guide=new Intent(getApplicationContext(),GuideListActivity.class);
+                searchlist_guide.putExtra("start",Start);
+                searchlist_guide.putExtra("goal",Goal);
+                startActivity(searchlist_guide);
+                finish();
+
+                //new Handler().postDelayed(new Runnable() {
+                 //   @Override
+                 //   public void run() {
+                 //       finish();
+                 //   }
+                //},2000);
+
+            }
+        });
 
         search();
     }
@@ -60,7 +104,7 @@ public class SearchListActivity extends AppCompatActivity {
         String macAddress = getMACAddress("wlan0");
 
         GetData task=new GetData();
-        task.execute("http://"+IP_ADDRESS+"/query.php",macAddress);
+        task.execute("http://"+IP_ADDRESS+"/querySearch.php",macAddress);
     }
 
     public static String getMACAddress(String interfaceName) {
@@ -83,6 +127,16 @@ public class SearchListActivity extends AppCompatActivity {
     }
 
 
+    //activity destory시 tts가 멈추어야 한다.
+    //@Override
+    //protected void onDestroy(){     //tts 초기화
+     //   if(searchlist_tts!=null){
+      //      searchlist_tts.stop();
+       //     searchlist_tts.shutdown();  //tts stop
+       // }
+       // super.onDestroy();
+    //}
+
     //AsyncTask의 자료형은 순서대로 doInBackground, onProgressUpdate, onPostExecute 의 매개변수
     private class GetData extends AsyncTask<String,Void,String>{
 
@@ -94,7 +148,12 @@ public class SearchListActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(String result) {
             super.onPostExecute(result);
+            Log.d("젭알",result);
+            Log.d("젭알","onPostExecute 통과");
+
             if(result!=null){
+
+                Log.d("젭알","여기 통과하니?");
                 search_json_string=result;
                 show_list();
             }
@@ -104,7 +163,7 @@ public class SearchListActivity extends AppCompatActivity {
         protected String doInBackground(String... strings) {
 
             String serverURL = strings[0];
-            String postParameters = "country=" + strings[1];
+            String postParameters = "id=" + strings[1];
 
             try {
                 URL url = new URL(serverURL);
@@ -145,17 +204,17 @@ public class SearchListActivity extends AppCompatActivity {
 
 
             } catch (Exception e) {
-
+                Log.d("젭알",e.getMessage());
                 return null;
             }
         }
     }
 
     private void show_list(){
-        String TAG_JSON="webnautes";
+        String TAG_JSON="log_db";
         String TAG_ID = "id";
-        String TAG_NAME = "name";
-        String TAG_COUNTRY ="country";
+        String TAG_Start = "Start";
+        String TAG_Goal ="Goal";
 
        try {
            JSONObject jsonObject = new JSONObject(search_json_string);
@@ -166,14 +225,16 @@ public class SearchListActivity extends AppCompatActivity {
                JSONObject item = jsonArray.getJSONObject(i);
 
                String id = item.getString(TAG_ID);
-               String name = item.getString(TAG_NAME);
-               String address = item.getString(TAG_COUNTRY);
+               String Start = item.getString(TAG_Start);
+               String Goal = item.getString(TAG_Goal);
 
                PersonalData personalData = new PersonalData();
 
                personalData.setMember_id(id);
-               personalData.setMember_name(name);
-               personalData.setMember_address(address);
+               personalData.setMember_Start(Start);
+               personalData.setMember_Goal(Goal);
+
+               Log.d("젭알",id+" "+Start+" "+Goal);
 
                search_array.add(personalData);
                search_adapter.notifyDataSetChanged();
@@ -182,5 +243,6 @@ public class SearchListActivity extends AppCompatActivity {
        }
 
     }
+
 
 }

@@ -18,12 +18,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-
-        <!-- android:theme은 팝업 창을 하기 위해서 꼭 써주어야 함!-->
-        <activity
-            android:name=".PopupActivity"
-            android:theme="@android:style/Theme.Dialog">
-        </activity>
+        <activity android:name=".GuideListActivity" />
+        <activity android:name=".UseActivity" /> <!-- android:theme은 팝업 창을 하기 위해서 꼭 써주어야 함! -->
         <activity android:name=".LostActivity" />
         <activity android:name=".EndActivity" />
         <activity android:name=".GuideActivity" />
@@ -31,9 +27,8 @@
         <activity android:name=".GuideSettingsActivity" />
         <activity android:name=".CheckActivity" /> <!-- screenOrientation : 화면 고정 -->
         <activity
-            android:name=".SplashActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/SplashTheme">
+            android:name=".LoadingActivity"
+            android:screenOrientation="portrait">
 
             <!-- 앱 시작 -->
             <intent-filter>
