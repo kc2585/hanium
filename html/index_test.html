@@ -1,0 +1,168 @@
+
+<!DOCTYPE html>
+<html>
+    <head>
+            <title>STL</title>
+            <meta name="viewport" content="initial-scale=1.0">
+            <meta charset="utf-8">
+        <link rel="stylesheet" type="text/css" href="css/total.css?after">
+        <link href="https://fonts.googleapis.com/css?family=Indie+Flower&display=swap" rel="stylesheet">
+        <link href="http://fonts.googleapis.com/earlyaccess/hanna.css" rel="stylesheet"> 
+	<script src="https://www.nate.com/js/common/jquery-1.9.1.min.js?" type="text/javascript"></script>
+        <style>
+            html, body{
+                margin: 0; padding: 0; height: 100%;
+            }
+        .swiper-slide img { width:100%; height:565px; }
+        </style>
+    </head>
+    <body>
+        <header>
+            <div>
+                <div class="logo">
+                    STL
+                </div>
+            </div>
+        </header>
+        <nav>
+
+                <ul>
+                  <li><a href="./index.html">Home</a></li>
+                  <li><a href="./map.html">Map</a></li>
+                  <li><a href="./introduce.html">Introduce</a></li>
+               	  <li><a href="./application.html">Application</a></li> 
+		</ul>
+
+        </nav>
+        <section>
+        
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Swiper/4.5.1/css/swiper.min.css">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/Swiper/4.5.1/js/swiper.min.js"></script>
+
+            <div class="swiper-container">
+        <div class="swiper-wrapper">
+                <div class="swiper-slide"><img src="image/light.jpg"></div>
+                <div class="swiper-slide"><img src="image/mirae.png"></div>
+        </div>
+</div>
+<div class="mainBox"  role="main">
+        <div class="cnt">
+                <div class="tit">보다 안전하게</div>
+                <p>
+                        STL팀은 시각장애인분들이<br>보다
+                        안전하게 도보할 수 있도록<br>
+                        최선을 다합니다.
+                </p>
+        </div>
+        <div class="cnt">
+                <div class="tit">보다 간편하게</div>
+                <p>
+			STL팀은 누구나 쉽게 사용할 수<br>
+			있는 어플리케이션 개발을<br>
+			목적으로 합니다. 
+                </p>
+        </div>
+	<div class="cnt">
+		<div class="tit"> 보다 경제적이게</div>
+		<p>
+			STL팀은 자동전력조절 기능을 통해<br>
+			보다 효율적이고 경제적인 역할을<br>
+		        수행할 수 있도록 합니다.
+		</p>
+	</div>
+			
+</div>
+
+        </section>
+<script>
+                // import { Swiper, Navigation, Pagination, Scrollbar } from 'swiper/dist/js/swiper.esm.js';
+                // Swiper.use([Navigation, Pagination, Scrollbar]);
+
+    var swiper = new Swiper('.swiper-container', {
+        effect: 'slide',
+      navigation: {
+        nextEl: '.btn-next',
+        prevEl: '.btn-prev',
+      },
+      loop:true,
+      threshold: 300,
+      autoplay:{
+        delay:5000,
+        disableOnInteraction: false,
+      }
+    });
+
+    $( ".swiper-slide" ).hover(
+                  function() {
+                    swiper.autoplay.stop();
+                  }, function() {
+                    swiper.autoplay.start();
+          });
+
+          $(".btn-next").focus(
+                function() {
+                    swiper.autoplay.stop();
+                });
+
+          $(".btn-prev").focus(
+                function() {
+                    swiper.autoplay.stop();
+                });
+
+                $(".btn-next").focusout(
+                function() {
+                    swiper.autoplay.start();
+                });
+
+          $(".btn-prev").focusout(
+                function() {
+                    swiper.autoplay.start();
+                });
+
+
+        $('.fsite').on('click', '.morelink', function (e) {
+            e.preventDefault();
+            $(this).closest('.fsite').toggleClass('open').siblings().removeClass('open');
+
+                })
+
+                $(function(){
+                        var didScroll;
+                        var lastScrollTop = 0;
+                        var delta = 5;
+                        var navbarHeight = $('header').outerHeight();
+
+                        $(window).scroll(function(event){
+                            didScroll = true;
+                        });
+                        setInterval(function(){
+                            if(didScroll){
+                                hasScrolled();
+                                didScroll = false;
+                            }
+                        }, 250);
+                        function hasScrolled(){
+                            var st = $(this).scrollTop();
+
+                            if(Math.abs(lastScrollTop - st) <= delta)
+                            return;
+                            if(st > lastScrollTop && st > navbarHeight){
+                                $('header').removeClass('hdDown').addClass('hdUp').fadeOut(400);
+                            }else{
+                                if(st + $(window).height() < $(document).height()){
+                                    $('header').removeClass('hdUp').addClass('hdDown').fadeIn(400);
+                                }
+                            }
+                            lastScrollTop = st;
+                        }
+                });
+  </script>
+        <footer>
+          <div>
+           <p>
+                &copy; 2019 STL
+            </p></div>
+        </footer>
+    </body>
+</html>
+

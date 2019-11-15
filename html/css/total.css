@@ -1,0 +1,4 @@
+@import url("./header.css?ver={{ time() }}");
+@import url("./footer.css?ver={{ time() }}");
+@import url("./nav.css?ver={{ time() }}");
+@import url("./section.css?ver={{ time() }}");

@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>STL</title>
+    <meta name="viewport" content="initial-scale=1.0">
+    <meta charset="utf-8">
+    <link rel="stylesheet" type="text/css" href="css/total.css?ver=1">
+    <link href="https://fonts.googleapis.com/css?family=Indie+Flower&display=swap" rel="stylesheet">
+    <link href="http://fonts.googleapis.com/earlyaccess/hanna.css" rel="stylesheet">
+    <style>
+        #map {
+            height: 700px;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <div>
+            <div class="logo">
+                STL
+            </div>
+        </div>
+    </header>
+    <nav>
+        <ul>
+            <li><a href="./index.html">Home</a></li>
+            <li><a href="./map.html">Map</a></li>
+            <li><a href="./introduce.html">Introduce</a></li>
+            <li><a href="./application.html">Application</a></li>
+        </ul>
+
+    </nav>
+    <section>
+        <div id="map"></div>
+        <script>
+            var locations = [
+                ['명동', 37.563576, 126.983431],
+                ['가로수길', 37.520300, 127.023008],
+                ['광화문', 37.575268, 126.976896],
+                ['남산', 37.550925, 126.990945],
+                ['이태원', 37.540223, 126.994005]
+            ];
+            function initMap() {
+                var lo = { lat: 37.563576, lng: 126.983431 };
+                var map = new google.maps.Map(
+                    document.getElementById('map'), { zoom: 12, center: lo });
+                for (var i = 0; i < locations.length; i++) {
+                    var marker = new google.maps.Marker({
+                        position: new google.maps.LatLng(locations[i][1], locations[i][2]),
+                        map: map,
+                        title: locations[i][0]
+                    });
+                    addInfoWindow(marker, locations[i][0]);
+                }
+            }
+            function addInfoWindow(marker, message) {
+                var infoWindow = new google.maps.InfoWindow({
+                    content: message
+                });
+
+                google.maps.event.addListener(marker, 'click', function () {
+                    infoWindow.open(map, marker);
+                });
+            }
+        </script>
+        <!--Load the API from the specified URL
+    * The async attribute allows the browser to render the page while the API loads
+    * The key parameter will contain your own API key (which is not needed for this tutorial)
+    * The callback parameter executes the initMap() function
+    -->
+        <script async defer
+            src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAp9n1z5TNix90drulOyHccDwwVD5YgSxs&callback=initMap">
+            </script>
+    </section>
+ <div class="footer">
+        &copy 2019 STL
+    </div>
+</body>
+
+</html>
