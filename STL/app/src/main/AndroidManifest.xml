@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.example.stl">
+    <!-- network & voice permission -->
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE" /> <!-- voice permission -->
+    <uses-permission android:name="android.permission.RECORD_AUDIO" /> <!-- bluetooth permission -->
+    <uses-permission android:name="android.permisson.BLUETOOTH" />
+    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" /> <!-- bluetooth & gps permission -->
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+
+    <application
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme"
+        android:usesCleartextTraffic="true">
+        <activity android:name=".GuideListActivity" />
+        <activity android:name=".UseActivity" /> <!-- android:theme은 팝업 창을 하기 위해서 꼭 써주어야 함! -->
+        <activity android:name=".EndActivity" />
+        <activity android:name=".GuideActivity" />
+        <activity android:name=".SearchListActivity" />
+        <activity android:name=".GuideSettingsActivity" />
+        <activity android:name=".CheckActivity" /> <!-- screenOrientation : 화면 고정 -->
+        <activity
+            android:name=".LoadingActivity"
+            android:screenOrientation="portrait">
+
+            <!-- 앱 시작 -->
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".MainActivity" />
+    </application>
+
+</manifest>
